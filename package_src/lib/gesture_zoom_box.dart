@@ -26,6 +26,7 @@ class GestureZoomBox extends StatefulWidget {
   final double doubleTapScale;
   final Widget child;
   final VoidCallback? onPressed;
+  final Function (ScaleUpdateDetails)? onTabDown;
   final Duration duration;
 
   /// 通过最大缩放比例 [maxScale]、双击缩放比例 [doubleTapScale]、子部件 [child]、点击事件 [onPressed] 创建小部件
@@ -35,6 +36,7 @@ class GestureZoomBox extends StatefulWidget {
     this.doubleTapScale = 2.0,
     required this.child,
     this.onPressed,
+    this.onTabDown,
     this.duration = const Duration(milliseconds: 200),
   })  : assert(maxScale >= 1.0),
         assert(doubleTapScale >= 1.0 && doubleTapScale <= maxScale),
@@ -91,6 +93,7 @@ class _GestureZoomBoxState extends State<GestureZoomBox>
         onPointerUp: _onPointerUp,
         child: GestureDetector(
           onTap: widget.onPressed,
+          onTapDown:(details)=> widget.onTabDown,
           onDoubleTap: _onDoubleTap,
           onScaleStart: _onScaleStart,
           onScaleUpdate: _onScaleUpdate,
